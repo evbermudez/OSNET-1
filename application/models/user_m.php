@@ -37,8 +37,7 @@ class User_M extends MY_Model
 		
 		
 		if($query->result() != NULL) return $query->result();
-		else return FALSE;
-	
+		else return array("Message" => "Returned Nothing");
 	}
 	
 	/*

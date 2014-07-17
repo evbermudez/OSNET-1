@@ -129,6 +129,8 @@ class Home extends Admin_Controller {
 			$this->load->view("templates/header");
 			$this->load->view("templates/nav-sidebar");
 			$this->load->view("templates/footer");
+
+      //print_r($this->session->all_userdata());
 		}
 	}
 	
@@ -136,7 +138,6 @@ class Home extends Admin_Controller {
 		Branch: KEVIN-employee_list_module_07/14/2014 
 		Created methods: render_profile_my_account, render_profile
 	*/
-	
 	
 	public function render_profile_my_account() {
 		$sub_header_data["profile_active"] = "";

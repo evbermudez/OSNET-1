@@ -1,15 +1,13 @@
 <style type="text/css">
   .employee-form-field {
     margin-bottom:5px;
+    width:450px;
   }
 
   span.input-group-addon {
-    width:190px;
+    width:180px;
   }
 
-  input.form-control {
-    width:300px;
-  }
 </style>
 
 <div id="add-new-employee-success-dialog" class="modal-dialog" title="Info">
@@ -21,6 +19,11 @@
   <div class="form-group">
     <fieldset>
       <legend>Personal Info</legend>
+
+      <div class="input-group employee-form-field">
+        <span class="input-group-addon"><strong>Full Name</strong></span>
+        <input type="text" id="full_name" class="form-control" placeholder="" disabled/>
+      </div>
 
       <div class="input-group employee-form-field">
         <span class="input-group-addon"><strong>Last Name</strong></span>
@@ -261,6 +264,10 @@
 <script type="text/javascript">
   var base_path = "<?php echo site_url(). 'index.php/ajax/employee_ajax/'; ?>";
 
+    var fName = '';
+    var mName = '';
+    var lName = '';
+
     function popUpDialog() {
       $("#add-new-employee-success-dialog").dialog({
           modal:true,
@@ -268,25 +275,73 @@
           width:330,
           buttons: {
             Continue: function() {
+              location.reload();
               $(this).dialog("close");
             }
           }
       });
     }
 
+    function performSearch() {
+      var department = $(".department-type").val();
+      var employee = $(".search").val();
+
+      //console.log(person + " / " + department);
+
+      $.post(base_path + "ajax_employee_search_by_department", {employee: employee, department: department}, function(response) {
+        $("#employee-table").html("");
+        $("#employee-table").append(response);
+        //console.log(response);
+      });
+    }
+
+    $(document).on("keyup keydown", "#first_name", function() {
+      fName = $("#first_name").val();
+
+      $("#full_name").val(fName + " " + mName + " " + lName);
+    });
+
+    $(document).on("keyup keydown", "#middle_name", function() {
+      mName = $("#middle_name").val();
+
+      $("#full_name").val(fName + " " + mName + " " + lName);
+    });
+
+    $(document).on("keyup keydown", "#last_name", function() {
+      lName = $("#last_name").val();
+
+      $("#full_name").val(fName + " " + mName + " " + lName);
+    });
+
+    $(document).on("change", ".department-type", function() {
+      performSearch();
+    });
+
+    // Search for a person based on department
+    $(document).on("keyup keydown", ".search", function() {
+      performSearch();
+    });
+
+    $(document).on("click", "#edit", function() {
+      var user_id = $(this).prop("class");
+      alert(user_id);
+    });
+
+    // Instantiate Datepickers
     $(document).ready(function() {
       $(".datepick").each(function() {
         $(this).datepicker();
     });
 
+    // Add Click Event to Pop-up Add New Employee Modal Dialog
     $(document).on("click", "#add-new-employee", function() {
       $("#add-new-employee-dialog").dialog({
         modal:true,
-        width:450,
+        width:520,
         height:500,
         resizable:false,
         buttons: {
-          Add: function() {
+          Save: function() {
 
             var first_name = $("#first_name").val();
             var last_name = $("#last_name").val();
@@ -300,7 +355,7 @@
               $(":input").each(function() {
                 values[$(this).prop("id")] = $(this).val();
               });
-              //alert(JSON.stringify(values, null, 4));
+              alert(JSON.stringify(values, null, 4));
 
               $.post(base_path + "ajax_add_new_employee", {profile: JSON.stringify(values, null, 4)}, function(response) {
               });
@@ -364,10 +419,15 @@
 
                                     <label class="pull-right">
                                       Department:   
-                                      <select class="form-control" style="width:200px;">
-                                        <option> -- All -- </option>
+                                      <!--id="department-type"-->
+                                      <select class="form-control department-type" style="width:200px;">
+                                        <option>All</option>
+                                        <?php foreach($department_list as $list): ?>
+                                          <option><?php echo $list->department_name; ?></option>
+                                        <?php endforeach; ?>
                                       </select> 
-                                      <input class="form-control" placeholder="Employee Name" style="width:200px;" id="search" type="text" aria-controls="example1"></label>
+                                      <!-- id="search" -->
+                                      <input class="form-control search" placeholder="Employee Name" style="width:200px;" type="text" aria-controls="example1"></label>
                                     <!--<button id="add-new-dept">Add New Department</button>-->
 
                                         </div>
@@ -393,25 +453,20 @@
                                         style="width: 200px;">Action</th>
                                 </thead>
 
-                            <tbody role="alert" aria-live="polite" aria-relevant="all">
+                            <tbody role="alert" aria-live="polite" aria-relevant="all" id="employee-table">
                                     <?php foreach($employee_list as $value): ?>
                                         <tr>
                                             <td><?php echo $value->first_name. ' '. $value->middle_name. ' '. $value->last_name; ?></td>
                                             <td><?php echo $value->department; ?></td>
                                             <td><?php echo $value->email; ?></td>
                                             <td>
-                                                <a id="archieve" href="#"><img src="<?php echo site_url("assets/img/delete.gif"); ?>"></a>
-                                                <a id="edit" href="#"><img src="<?php echo site_url("assets/img/edit.gif"); ?>"></a>
+                                                <a id="edit" class="<?php echo $value->user_id; ?>" href="#"><img src="<?php echo site_url("assets/img/edit.gif"); ?>"></a>
+                                                <a id="archieve" class="<?php echo $value->user_id; ?>" href="#"><img src="<?php echo site_url("assets/img/delete.gif"); ?>"></a>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>
                             </tbody></table><!--<div class="row"><div class="col-xs-6"><div class="dataTables_info" id="example1_info">Showing 1 to 10 of 57 entries</div></div><div class="col-xs-6"><div class="dataTables_paginate paging_bootstrap"><ul class="pagination"><li class="prev disabled"><a href="#">← Previous</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li class="next"><a href="#">Next → </a></li></ul></div></div></div></div>-->
                         </div><!-- /.box-body -->
-                        <!--<div class="box-footer clearfix no-border">
-                            <button class="btn btn-default pull-right " data-toggle="modal" data-target="#department-modal">
-                              <i class="fa fa-sitemap"></i> Add Department
-                            </button>
-                        </div> -->
                     </div><!-- /.box -->
                     <!-- End Announcement -->
                 </div>
