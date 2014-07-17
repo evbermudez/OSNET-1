@@ -1,6 +1,10 @@
 /* Misc */
 header .logo{background: #fff!important;}
 header .logo:hover{background: #fff!important;}
+.btn-delete{background:#ff0000; color:#fff;}
+.btn-delete:hover{color:#fff;}
+.btn-delete:active{color:#fff;}
+.btn-delete:visited{color:#fff;}
 
 .no-print{display: none;}
 
