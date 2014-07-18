@@ -172,6 +172,29 @@ class Home extends Admin_Controller {
 			$this->load->view("templates/footer");
 		}
 	}
+  
+  /*
+    ERIC-infractions
+    Created methods: infraction_list,
+  */
+  
+  public function infraction_list() {
+		if($this->session->userdata('logged_in') == 0)
+			redirect('home/login');
+		else {
+			$this->load->model("infraction_m");
+
+			$data["title"] = "Infraction List";
+      $data["infraction_type"] = $this->infraction_m->getInfractionType();
+			$data["infraction_list"] = $this->infraction_m->getInfractionList();
+			
+
+			$this->load->view("templates/header");
+			$this->load->view("templates/nav-sidebar");
+			$this->load->view("infraction/infraction_list", $data);
+			$this->load->view("templates/footer");
+		}
+	}
 	
 	/* ********************************************** */
 	public function modal() {
