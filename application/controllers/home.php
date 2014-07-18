@@ -1,12 +1,12 @@
 <?php
 class Home extends Admin_Controller{
   
-  public function __construct(){
-    parent::__construct();
-  }
+	public function __construct(){
+		parent::__construct();
+	}
   
    
-  public function index() {
+	public function index() {
 		if($this->session->userdata('logged_in') == 0)
 			redirect('home/login');
 		else redirect('home/render_home');
@@ -14,17 +14,39 @@ class Home extends Admin_Controller{
 
   
 
-  public function render_home() {
-	/*
-		Branch: JEFFREY-announcements_table_db_change_07/11/2014
-		Changes:  render_home
-	*/
+  public function render_home($page = 1){
+	$this->load->library('pagination');
+	$config['base_url'] = site_url().'home/render_home/';
+	$config['total_rows'] = $this->announcement_m->count_announcement();
+	
+	$config['per_page'] = 5;
+	$config['uri_segment'] = 3;
+	$config['use_page_numbers']  = TRUE;
+	$config['prev_link'] = '&laquo';
+	$config['prev_tag_open'] = '<li>';
+	$config['prev_tag_close'] = '</li>';
+	$config['next_link'] = '&raquo;';
+	$config['next_tag_open'] = '<li>';
+	$config['next_tag_close'] = '</li>';
+	$config['cur_tag_open'] = '<li class="active"><a href="#">';
+	$config['cur_tag_close'] = '</a></li>';
+	$config['num_tag_open'] = '<li>';
+	$config['num_tag_close'] = '</li>';
+	$config['first_link'] = FALSE;
+	$config['last_link'] = FALSE;
+	
+	$this->pagination->initialize($config);
+	$this->data["pagination_helper"]   = $this->pagination;
 		
 	$username = $this->session->userdata('username');
-	
-   $this->data['announcement'] = $this->announcement_m->get_announcement();
+	/*
+		Branch: JEFFREY-announcements_table_db_change_07/11/2014
+		Added:  data['announcement'], view('home', $this->data)  
+		*/
+   $this->data['announcement'] = $this->announcement_m->get_announcement(NULL, $config['per_page'], $config['per_page'] * ($page - 1));
    $user_id = $this->user_m->get_user_id($username);
    
+   //$user_role = $this->user_m->get_user_role($user_id['user_id']);
    
     foreach($user_id as $id)
 		$id = $id->user_id;
@@ -37,9 +59,7 @@ class Home extends Admin_Controller{
 	$this->data['usertype'] =	$usertype;
     $this->load->view("templates/header");
     $this->load->view("templates/nav-sidebar");
-   
-   $this->load->view('home', $this->data);
-
+    $this->load->view('home', $this->data);
     $this->load->view("templates/footer");
   }
   
