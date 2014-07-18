@@ -95,8 +95,7 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="#"><i class="fa fa-angle-double-right"></i>Add Infraction</a></li>
-                                <li><a href="#"><i class="fa fa-angle-double-right"></i>Infractions List</a></li>
+                                <li><a href="<?php echo site_url('home/infraction_list'); ?>"><i class="fa fa-angle-double-right"></i>Infractions List</a></li>
                             </ul>
                         </li>
 						<li>
