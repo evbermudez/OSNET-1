@@ -15,8 +15,8 @@ $(document).ready(function() {
 	
 	/*
 		Branch: JEFFREY-announcements_table_db_change_07/11/2014
-		Added:  click function announcement_list, save_announcement_butt
-	*/    
+		Added:  click function announcement_list, save_announcement_btn
+		*/    
 		
 
 	$('.announcement_list').click(function(){
@@ -27,7 +27,7 @@ $(document).ready(function() {
 			data: {row_id:rowid}, 
 			success:function(data) {
 				$("#ann_div").html(data);
-				$('#edit_announcement_butt').data('id', rowid);
+				$('#edit_announcement_btn').data('id', rowid);
 			}
 		});
 		
@@ -35,14 +35,14 @@ $(document).ready(function() {
 	
 	
 	 
-	$('#save_announcement_butt').click(function(){
+	$('#save_announcement_btn').click(function(){
 
 		var title = $.trim( $('#announcement_title').val());
 		var duration = $.trim( $('#announcement-duration').val());
 		var message = $.trim( $('#announcement_message').val());
 								
 		var err = "";
-		if (!title) 			err += '<p>Title Required</p>';
+		if (!title) 		err += '<p>Title Required</p>';
 		if (!duration) 	err += '<p>Duration Required</p>';
 		if (!message) 	err += '<p>Message Required</p>';
 		$("#add_announcement_errors").html(err);
@@ -60,11 +60,11 @@ $(document).ready(function() {
 
 	});
 	
-	$('#saveedit_announcement_butt').click(function(){
+	$('#saveedit_announcement_btn').click(function(){
 		var title = $.trim( $('#edit_announcement_title').val());
 		var duration = $.trim( $('#edit_announcement-duration').val());
 		var message = $.trim( $('#edit_announcement_message').val());
-		var id = $('#edit_announcement_butt').data('id');
+		var id = $('#edit_announcement_btn').data('id');
 		
 		var err = "";
 		if (!title) 			err += '<p>Title Required</p>';
@@ -85,9 +85,11 @@ $(document).ready(function() {
 	});
 	
 	
-	$('#edit_announcement_butt').click(function(){
+	$('#edit_announcement_btn').click(function(){
 		$('#announcement-item-modal').modal('hide');
-		var rowid = $('#edit_announcement_butt').data('id');
+		
+		var rowid = $('#edit_announcement_btn').data('id');
+		
 		$.ajax({
 			type: "POST",
 			url: site_url + 'index.php/ajax/announcement_ajax/edit',
@@ -99,11 +101,12 @@ $(document).ready(function() {
 				editor.setValue(parsedata.announcement_message);
 			}
 		});
+		
 	});
 	
 	
-	$('#delete_announcement_butt').click(function(){
-		var rowid = $('#edit_announcement_butt').data('id');
+	$('#delete_announcement_btn').click(function(){
+		var rowid = $('#edit_announcement_btn').data('id');
 		alert(rowid);
 		$.ajax({
 			type: "POST",

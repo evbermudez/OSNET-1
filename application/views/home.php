@@ -32,17 +32,20 @@
                             <!-- TO DO List -->
                             <div class="box box-primary">
                                 <div class="box-header">
-                                    <i class="ion ion-clipboard"></i>
-                                    <h3 class="box-title">Announcements</h3>
-                                    <div class="box-tools pull-right">
-                                        <ul class="pagination pagination-sm inline">
-                                            <li><a href="#">&laquo;</a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                            <li><a href="#">&raquo;</a></li>
-                                        </ul>
-                                    </div>
+									<div class="row">
+										<div class="col-md-12">
+											<h3 class="box-title pull-left">
+												<i class="ion ion-clipboard pull-left"></i> Announcements
+											</h3>
+										</div>
+									</div>
+									<div class="row pull-right">
+										<div class="col-md-12">
+											<ul class="pagination pagination-sm inline">
+												<?php echo $pagination_helper->create_links(); ?>
+											</ul>    
+										</div>
+									</div>
                                 </div><!-- /.box-header -->
 								<?php
 									/*
@@ -136,7 +139,7 @@
 						<?php echo form_close(); ?>
                         <div class="modal-footer clearfix">
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
-                            <button id="save_announcement_butt" class="btn btn-primary pull-left"><i class="fa fa-thumb-tack"></i> Save Announcement</button>
+                            <button id="save_announcement_btn" class="btn btn-primary pull-left"><i class="fa fa-thumb-tack"></i> Save Announcement</button>
 							<?php //echo form_submit('submit', 'Save Announcement', 'class="btn btn-primary pull-left"'); ?>
                         </div>
                     
@@ -183,7 +186,7 @@
 						<?php echo form_close(); ?>
                         <div class="modal-footer clearfix">
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Discard</button>
-                            <button id="saveedit_announcement_butt" class="btn btn-primary pull-left"><i class="fa fa-thumb-tack"></i> Save Announcement</button>
+                            <button id="saveedit_announcement_btn" class="btn btn-primary pull-left"><i class="fa fa-thumb-tack"></i> Save Announcement</button>
 						</div>
                     
 					
@@ -215,8 +218,8 @@
                             <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
                             <!-- normal users can't see this -->
 							<?php if($usertype == "superadmin"): ?>
-								<button type="submit" id="edit_announcement_butt" class="btn btn-primary pull-left" data-toggle="modal" data-id="" data-target="#edit-announcement-modal"><i class="fa fa-thumb-tack"></i> Edit Annoucement</button>
-								<button type="submit" id="delete_announcement_butt" class="btn btn-delete pull-left"><i class="fa fa-thumb-tack"></i> Delete Annoucement</button>
+								<button type="submit" id="edit_announcement_btn" class="btn btn-primary pull-left" data-toggle="modal" data-id="" data-target="#edit-announcement-modal"><i class="fa fa-thumb-tack"></i> Edit Annoucement</button>
+								<button type="submit" id="delete_announcement_btn" class="btn btn-delete pull-left"><i class="fa fa-thumb-tack"></i> Delete Annoucement</button>
 							<?php endif ?>
 						</div>
                     
