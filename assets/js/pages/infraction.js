@@ -7,7 +7,7 @@ $(document).ready(function() {
   
     $('input.infraction-user-id').val($(this).prop("id")); 
   
-  });
+  }); 
   
   $('#add-infraction-dialog .btn-primary').click(function(){
 

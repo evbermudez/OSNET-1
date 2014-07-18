@@ -2,7 +2,7 @@
 <?php $this->load->view('infraction/infraction_assets'); ?>
             <aside class="right-side">                
                 <!-- Content Header (Page header) -->
-                <section class="content-header">
+                <section class="content-header"> 
                     <h1>
                       <?php if(isset($title)): ?>
                         <?php echo $title; ?>

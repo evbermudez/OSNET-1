@@ -167,7 +167,7 @@ class Home extends Admin_Controller {
 	/*
 		Branch: KEVIN-department_list_module_07/14/2014 
 		Created methods: render_department_list
-	*/
+	*/ 
 	
 	public function render_department_list() {
 	if($this->session->userdata('logged_in') == 0)

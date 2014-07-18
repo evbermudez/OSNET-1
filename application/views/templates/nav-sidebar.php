@@ -11,7 +11,7 @@
                         <div class="pull-left info">
                             <p>Hello, Louise</p>
                         </div>
-                    </div>
+                    </div> 
                     
                     <ul class="sidebar-menu">
                         <li>

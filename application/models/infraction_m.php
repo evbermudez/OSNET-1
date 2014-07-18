@@ -22,7 +22,7 @@ class Infraction_m extends CI_Model {
         LEFT JOIN department as d
         ON ui.department_id = d.department_id
 
-        GROUP BY ui.user_id
+        GROUP BY ui.user_id 
         ORDER BY last_name
         ";
 

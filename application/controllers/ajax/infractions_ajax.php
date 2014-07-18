@@ -15,4 +15,4 @@ class Infractions_ajax extends CI_Controller {
     
   }
 
-}
+} 
